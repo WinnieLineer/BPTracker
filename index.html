@@ -15,7 +15,6 @@
             position: relative;
             overflow-x: hidden;
         }
-        /* 移動的 Emoji 背景 */
         .background-icons {
             position: fixed;
             top: 0;
@@ -107,9 +106,27 @@
             padding: 10px;
             border-bottom: 1px solid #eee;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .record-details {
+            flex-grow: 1;
         }
         .status-normal { color: #28a745; font-weight: bold; }
         .status-abnormal { color: #dc3545; font-weight: bold; }
+        .delete-btn {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
         .analysis {
             margin-top: 20px;
             padding: 15px;
@@ -160,7 +177,7 @@
         <button onclick="saveRecord()">儲存記錄</button>
         <div id="latestStatus"></div>
 
-        <!-- 歷史記錄 -->
+        <!-- 歷史紀錄 -->
         <h2>個人血壓紀錄</h2>
         <div id="records"></div>
 
@@ -178,6 +195,7 @@
         const photoInputBtn = document.getElementById('photoInputBtn');
         const photoInput = document.getElementById('photoInput');
         const preview = document.getElementById('preview');
+        const latestStatusDiv = document.getElementById('latestStatus');
         photoInputBtn.addEventListener('click', () => photoInput.click());
 
         photoInput.addEventListener('change', function(event) {
@@ -195,6 +213,10 @@
 
         // 使用 Gemini API 分析圖片
         async function analyzeImageWithGemini(imageData) {
+            latestStatusDiv.innerHTML = '正在辨識中...';
+            latestStatusDiv.style.backgroundColor = '#fff3cd';
+            latestStatusDiv.style.color = '#856404';
+
             const prompt = "請從這張血壓計照片中提取收縮壓和舒張壓數值，並以格式 '收縮壓: X, 舒張壓: Y' 返回。";
             const imageBase64 = imageData.split(',')[1];
 
@@ -224,16 +246,19 @@
                 if (numbers && numbers.length >= 2) {
                     document.getElementById('systolic').value = numbers[0];
                     document.getElementById('diastolic').value = numbers[1];
+                    latestStatusDiv.innerHTML = '辨識完成，已填入數值。';
+                    latestStatusDiv.style.backgroundColor = '#d4edda';
+                    latestStatusDiv.style.color = '#28a745';
                 } else {
-                    document.getElementById('latestStatus').innerHTML = '無法辨識血壓數值，請手動輸入。';
-                    document.getElementById('latestStatus').style.backgroundColor = '#f8d7da';
-                    document.getElementById('latestStatus').style.color = '#dc3545';
+                    latestStatusDiv.innerHTML = '無法辨識血壓數值，請手動輸入。';
+                    latestStatusDiv.style.backgroundColor = '#f8d7da';
+                    latestStatusDiv.style.color = '#dc3545';
                 }
             } catch (error) {
                 console.error('錯誤:', error);
-                document.getElementById('latestStatus').innerHTML = '圖片分析失敗，請手動輸入血壓數據。';
-                document.getElementById('latestStatus').style.backgroundColor = '#f8d7da';
-                document.getElementById('latestStatus').style.color = '#dc3545';
+                latestStatusDiv.innerHTML = '圖片分析失敗，請手動輸入血壓數據。';
+                latestStatusDiv.style.backgroundColor = '#f8d7da';
+                latestStatusDiv.style.color = '#dc3545';
             }
         }
 
@@ -241,7 +266,6 @@
         function saveRecord() {
             const systolic = parseInt(document.getElementById('systolic').value);
             const diastolic = parseInt(document.getElementById('diastolic').value);
-            const latestStatusDiv = document.getElementById('latestStatus');
 
             if (!systolic || !diastolic) {
                 latestStatusDiv.innerHTML = '請輸入完整的血壓數據。';
@@ -262,12 +286,10 @@
             records.push(record);
             localStorage.setItem('bpRecords', JSON.stringify(records));
 
-            // 顯示最新狀態
             latestStatusDiv.innerHTML = `本次血壓: ${status}`;
             latestStatusDiv.style.backgroundColor = status === '正常' ? '#d4edda' : '#f8d7da';
             latestStatusDiv.style.color = status === '正常' ? '#28a745' : '#dc3545';
 
-            // 清空輸入
             document.getElementById('systolic').value = '';
             document.getElementById('diastolic').value = '';
             document.getElementById('photoInput').value = '';
@@ -291,15 +313,29 @@
             let records = JSON.parse(localStorage.getItem('bpRecords')) || [];
             
             recordsDiv.innerHTML = '';
-            records.forEach((record) => {
+            records.forEach((record, index) => {
                 recordsDiv.innerHTML += `
                     <div class="record-item">
-                        <p>日期: ${record.date}</p>
-                        <p>收縮壓: ${record.systolic} mmHg, 舒張壓: ${record.diastolic} mmHg 
-                            (<span class="${record.status === '正常' ? 'status-normal' : 'status-abnormal'}">${record.status}</span>)</p>
+                        <div class="record-details">
+                            <p>日期: ${record.date}</p>
+                            <p>收縮壓: ${record.systolic} mmHg, 舒張壓: ${record.diastolic} mmHg 
+                                (<span class="${record.status === '正常' ? 'status-normal' : 'status-abnormal'}">${record.status}</span>)</p>
+                        </div>
+                        <button class="delete-btn" onclick="deleteRecord(${index})">刪除</button>
                     </div>
                 `;
             });
+        }
+
+        // 刪除特定紀錄
+        function deleteRecord(index) {
+            let records = JSON.parse(localStorage.getItem('bpRecords')) || [];
+            records.splice(index, 1); // 移除指定索引的紀錄
+            localStorage.setItem('bpRecords', JSON.stringify(records));
+            displayRecords(); // 刷新顯示
+            latestStatusDiv.innerHTML = '已刪除該筆紀錄。';
+            latestStatusDiv.style.backgroundColor = '#d4edda';
+            latestStatusDiv.style.color = '#28a745';
         }
 
         // 分析紀錄並給建議
