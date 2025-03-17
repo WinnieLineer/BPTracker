@@ -4,7 +4,7 @@
 
 BPTracker 是一個基於 Gemini API 的健康記錄工具，幫助使用者透過 OCR 技術自動記錄血壓與體重，並提供健康建議。所有資料儲存於本地端，確保隱私安全。
 
-**[立即體驗](https://winnielineer.github.io/BPTracker/)**
+**[立即體驗]([https://winnielineer.github.io/BPTracker/](https://raw.githubusercontent.com/WinnieLineer/BPTracker/refs/heads/main/bptracker.png))**
 
 ## 功能特色
 
