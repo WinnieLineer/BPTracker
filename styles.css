@@ -158,3 +158,17 @@ button:hover, #photoInputBtn:hover {
     text-align: center;
     font-size: 1.1em;
 }
+#floatingGif {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 100px;  /* 根據需求調整大小 */
+    height: auto;
+    z-index: 1000;  /* 確保在其他內容上方 */
+    opacity: 0.9;  /* 調整透明度 */
+    transition: transform 0.3s ease-in-out;
+}
+
+#floatingGif:hover {
+    transform: scale(1.2); /* 滑鼠懸停時放大 */
+}
