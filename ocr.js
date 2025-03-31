@@ -59,12 +59,14 @@ async function analyzeImageWithGemini(imageData) {
             latestStatusDiv.innerHTML = '血壓辨識完成，已填入數值。';
             latestStatusDiv.style.backgroundColor = '#d4edda';
             latestStatusDiv.style.color = '#28a745';
+            saveRecord('bp');
         } else if (weightMatch) {
             openTab('weightTab');
             document.getElementById('weight').value = weightMatch[1];
             latestStatusDiv.innerHTML = '體重辨識完成，已填入數值。';
             latestStatusDiv.style.backgroundColor = '#d4edda';
             latestStatusDiv.style.color = '#28a745';
+            saveRecord('weight');
         } else {
             latestStatusDiv.innerHTML = '無法辨識數值，請手動輸入。';
             latestStatusDiv.style.backgroundColor = '#f8d7da';

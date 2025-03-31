@@ -22,6 +22,38 @@ function displayRecords() {
     let records = JSON.parse(localStorage.getItem('bpRecords')) || [];
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
 
+    const parseDateToTimestamp = (dateStr) => {
+        if (!dateStr) return 0;
+
+        // Edge 自動轉換後格式："3/31/2025, 8:32:08 PM"
+        if (dateStr.includes(",")) {
+            return new Date(dateStr).getTime(); // Edge 內建格式直接解析
+        }
+
+        // 解析 Chrome 原始格式："2025/3/31 下午8:33:50"
+        let parts = dateStr.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})\s(上午|下午)(\d{1,2}):(\d{2}):(\d{2})/);
+        if (!parts) return 0;
+
+        let [, year, month, day, period, hour, minute, second] = parts;
+        hour = parseInt(hour, 10);
+
+        // 轉換為 24 小時制
+        if (period === "下午" && hour !== 12) hour += 12;
+        if (period === "上午" && hour === 12) hour = 0;
+
+        // 轉換為標準格式 "YYYY-MM-DD HH:mm:ss"
+        let isoDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} ${String(hour).padStart(2, "0")}:${minute}:${second}`;
+
+        // 確保解析正常
+        let timestamp = new Date(isoDate).getTime();
+        return isNaN(timestamp) ? 0 : timestamp;
+    };
+
+// **排序**
+    records.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date));
+
+    console.log(records);
+
     recordsDiv.innerHTML = '';
     records.forEach((record, index) => {
         recordsDiv.innerHTML += `

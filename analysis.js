@@ -21,7 +21,7 @@ async function analyzeRecords() {
     console.log('設置為顯示:', analysisResult.style.display);
 
     const prompt = `
-        以下是我的健康紀錄，請分析並提供建議（含 BMI 計算，考慮性別與身高，清晰段落分隔）：
+        以下是我的健康紀錄，請分析並提供建議：
         性別: ${userInfo.gender || '未提供'}, 身高: ${userInfo.height || '未提供'} cm
         紀錄:\n${records.map(r => `${r.date}: 收縮壓 ${r.systolic || '無'} mmHg, 舒張壓 ${r.diastolic || '無'} mmHg, 體重 ${r.weight || '無'} kg`).join('\n')}
     `;

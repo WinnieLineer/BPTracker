@@ -7,48 +7,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-icons">
-        <span class="emoji">🫀</span>
-        <span class="emoji">🦾</span>
-        <span class="emoji">🫀</span>
-        <span class="emoji">🦾</span>
-        <span class="emoji">🫀</span>
+<div class="background-icons">
+    <span class="emoji">🫀</span>
+    <span class="emoji">🦾</span>
+    <span class="emoji">🫀</span>
+    <span class="emoji">🦾</span>
+    <span class="emoji">🫀</span>
+</div>
+
+<div class="container">
+    <h1>健康記錄工具</h1>
+    <p style="text-align: center; color: #666;">分開記錄血壓與體重，隨時掌握您的健康狀況</p>
+    <button id="photoInputBtn">上傳照片 (血壓計或體重機)</button>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" multiple>
+    <br>
+    <img id="preview" src="" alt="預覽照片" style="display: none;">
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab('basicInfoTab')">基本資訊</button>
+        <button class="tab-button" onclick="openTab('bpTab')">血壓</button>
+        <button class="tab-button" onclick="openTab('weightTab')">體重</button>
     </div>
 
-    <div class="container">
-        <h1>健康記錄工具</h1>
-        <p style="text-align: center; color: #666;">分開記錄血壓與體重，隨時掌握您的健康狀況</p>
-
-        <button id="photoInputBtn">上傳照片 (血壓計或體重機)</button>
-        <input type="file" id="photoInput" accept="image/*" capture="camera">
-        <br>
-        <img id="preview" src="" alt="預覽照片" style="display: none;">
-
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab('bpTab')">血壓</button>
-            <button class="tab-button" onclick="openTab('weightTab')">體重</button>
-        </div>
-
-        <div id="bpTab" class="tab-content active">
-            <div class="input-group">
-                <label>收縮壓 (mmHg):</label>
-                <input type="number" id="systolic" placeholder="例如: 120">
-            </div>
-            <div class="input-group">
-                <label>舒張壓 (mmHg):</label>
-                <input type="number" id="diastolic" placeholder="例如: 80">
-            </div>
-            <button onclick="saveRecord('bp')">儲存血壓</button>
-        </div>
-
-        <div id="weightTab" class="tab-content">
-            <div class="input-group">
-                <label>體重 (kg):</label>
-                <input type="number" id="weight" placeholder="例如: 70">
-            </div>
-            <button onclick="saveRecord('weight')">儲存體重</button>
-        </div>
-
+    <div id="basicInfoTab" class="tab-content active">
         <div class="input-group">
             <label>性別:</label>
             <select id="gender">
@@ -61,21 +42,43 @@
             <label>身高 (cm):</label>
             <input type="number" id="height" placeholder="例如: 170">
         </div>
-        <button onclick="clearAllData()">清除全部資料</button>
-        <div id="latestStatus"></div>
-
-        <h2>個人健康紀錄</h2>
-        <div id="records"></div>
-
-        <button onclick="analyzeRecords()">分析健康建議</button>
-        <div id="analysisResult" class="analysis" style="display: none;"></div>
     </div>
 
-	<script src="config.js"></script>
-	<script src="storage.js"></script>
-	<script src="ocr.js"></script>
-	<script src="analysis.js"></script>
-	<script src="ui.js"></script>
-	<script src="main.js"></script>
+    <div id="bpTab" class="tab-content">
+        <div class="input-group">
+            <label>收縮壓 (mmHg):</label>
+            <input type="number" id="systolic" placeholder="例如: 120">
+        </div>
+        <div class="input-group">
+            <label>舒張壓 (mmHg):</label>
+            <input type="number" id="diastolic" placeholder="例如: 80">
+        </div>
+        <button onclick="saveRecord('bp')">儲存血壓</button>
+    </div>
+
+    <div id="weightTab" class="tab-content">
+        <div class="input-group">
+            <label>體重 (kg):</label>
+            <input type="number" id="weight" placeholder="例如: 70">
+        </div>
+        <button onclick="saveRecord('weight')">儲存體重</button>
+    </div>
+
+    <button onclick="clearAllData()">清除全部資料</button>
+    <div id="latestStatus"></div>
+
+    <h2>個人健康紀錄</h2>
+    <div id="records"></div>
+
+    <button onclick="analyzeRecords()">分析健康建議</button>
+    <div id="analysisResult" class="analysis" style="display: none;"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="storage.js"></script>
+<script src="ocr.js"></script>
+<script src="analysis.js"></script>
+<script src="ui.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

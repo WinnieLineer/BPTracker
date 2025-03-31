@@ -39,10 +39,11 @@ function saveRecord(type) {
 }
 
 function checkBloodPressure(systolic, diastolic) {
-    if (systolic < 120 && diastolic < 80) return "正常";
-    if (systolic <= 129 && diastolic < 80) return "偏高";
-    if (systolic <= 139 || diastolic <= 89) return "高血壓 1 期";
-    return "高血壓 2 期";
+    if (systolic >= 180 || diastolic >= 120) return "高血壓危象，請立即就醫";
+    if (systolic >= 140 || diastolic >= 90) return "高血壓 2 期";
+    if (systolic >= 130 || diastolic >= 80) return "高血壓 1 期";
+    if (systolic >= 120 && diastolic < 80) return "偏高";
+    return "正常";
 }
 
 function deleteRecord(index) {
