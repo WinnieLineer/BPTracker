@@ -52,7 +52,8 @@ function displayRecords() {
 // **排序**
     records.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date));
 
-    console.log(records);
+// **將排序後的數據存回 localStorage**
+    localStorage.setItem('bpRecords', JSON.stringify(records));
 
     recordsDiv.innerHTML = '';
     records.forEach((record, index) => {

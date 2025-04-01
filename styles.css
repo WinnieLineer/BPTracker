@@ -172,3 +172,17 @@ button:hover, #photoInputBtn:hover {
 #floatingGif:hover {
     transform: scale(1.2); /* 滑鼠懸停時放大 */
 }
+#floatingLeftImage {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 100px;  /* 根據需求調整大小 */
+    height: auto;
+    z-index: 1000;  /* 確保圖片顯示在最上層 */
+    opacity: 0.9;  /* 調整透明度 */
+    transition: transform 0.3s ease-in-out;
+}
+
+#floatingLeftImage:hover {
+    transform: scale(1.2); /* 滑鼠懸停時放大 */
+}
