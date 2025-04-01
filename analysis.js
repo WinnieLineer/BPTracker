@@ -41,9 +41,9 @@ async function analyzeRecords() {
         const data = await response.json();
         let advice = data.candidates[0].content.parts[0].text;
         advice = advice.replace(/\n/g, '<br>');
-        analysisResult.innerHTML = `<strong>健康建議：</strong><br>${advice}`;
-        analysisResult.style.backgroundColor = '#e9f7ff';
-        analysisResult.style.color = '#0056b3';
+        advice = advice.replace(/\*([^*]+)\*/g, '<b>$1</b>');        analysisResult.innerHTML = `<strong>健康建議：</strong><br>${advice}`;
+        analysisResult.style.backgroundColor = '#f3e5ab';
+        analysisResult.style.color = '#a67c52';
     } catch (error) {
         console.error('錯誤:', error);
         analysisResult.innerHTML = '分析失敗，請稍後再試。';

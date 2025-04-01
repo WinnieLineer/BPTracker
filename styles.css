@@ -3,7 +3,7 @@ body {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f5f7fa;
+    background-color: #f3e5ab; /* 溫暖的米黃色 */
     color: #333;
     position: relative;
     overflow-x: hidden;
@@ -36,13 +36,13 @@ body {
     100% { transform: translate(0, 0); }
 }
 h1 {
-    color: #007bff;
+    color: #a67c52;
     font-size: 2em;
     margin-bottom: 20px;
     text-align: center;
 }
 h2 {
-    color: #0056b3;
+    color: #a67c52;
     font-size: 1.5em;
     margin-top: 30px;
 }
@@ -50,9 +50,10 @@ h2 {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
+    border: 3px solid #a67c52; /* 仿像素風的深棕色邊框 */
+    box-shadow: none; /* 移除現代感陰影 */
 }
 #preview {
     max-width: 100%;
@@ -79,7 +80,7 @@ input[type="number"], select {
 button, #photoInputBtn {
     padding: 10px 20px;
     margin: 10px 5px;
-    background-color: #007bff;
+    background-color: #b34b34; /* 復古紅色 */
     color: white;
     border: none;
     border-radius: 5px;
@@ -87,7 +88,7 @@ button, #photoInputBtn {
     transition: background-color 0.3s;
 }
 button:hover, #photoInputBtn:hover {
-    background-color: #0056b3;
+    background-color: #923b2c; /* 深一點的紅色 */
 }
 #photoInput {
     display: none;
@@ -105,7 +106,7 @@ button:hover, #photoInputBtn:hover {
     transition: background-color 0.3s;
 }
 .tab-button.active {
-    background-color: #007bff;
+    background-color: #a67c52;
     color: white;
 }
 .tab-content {
@@ -128,7 +129,7 @@ button:hover, #photoInputBtn:hover {
 .record-details {
     flex-grow: 1;
 }
-.status-normal { color: #28a745; font-weight: bold; }
+.status-normal { color: #a67c52; font-weight: bold; }
 .status-abnormal { color: #dc3545; font-weight: bold; }
 .delete-btn {
     padding: 5px 10px;
@@ -147,7 +148,7 @@ button:hover, #photoInputBtn:hover {
     padding: 15px;
     background-color: #e9f7ff;
     border-radius: 5px;
-    color: #0056b3;
+    color: #a67c52;
     line-height: 1.6;
     white-space: pre-wrap;
 }
