@@ -15,10 +15,8 @@ async function analyzeRecords() {
     }
 
     analysisResult.innerHTML = '正在處理中，請稍候...';
-    analysisResult.style.backgroundColor = '#fff3cd';
-    analysisResult.style.color = '#856404';
+    analysisResult.className = 'analysis status-loading';
     analysisResult.style.display = 'block';
-    console.log('設置為顯示:', analysisResult.style.display);
 
     const prompt = `
         以下是我的健康紀錄，請分析並提供建議：
@@ -42,12 +40,10 @@ async function analyzeRecords() {
         let advice = data.candidates[0].content.parts[0].text;
         advice = advice.replace(/\n/g, '<br>');
         advice = advice.replace(/\*([^*]+)\*/g, '<b>$1</b>');        analysisResult.innerHTML = `<strong>健康建議：</strong><br>${advice}`;
-        analysisResult.style.backgroundColor = '#f3e5ab';
-        analysisResult.style.color = '#a67c52';
+        analysisResult.className = 'analysis status-success';
     } catch (error) {
         console.error('錯誤:', error);
         analysisResult.innerHTML = '分析失敗，請稍後再試。';
-        analysisResult.style.backgroundColor = '#f8d7da';
-        analysisResult.style.color = '#dc3545';
+        analysisResult.className = 'analysis status-error';
     }
 }

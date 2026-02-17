@@ -1,8 +1,7 @@
 function preprocessImage(imageData) {
     const latestStatusDiv = document.getElementById('latestStatus');
-    latestStatusDiv.innerHTML = '正在預處理圖片（轉黑白+拉高對比）...';
-    latestStatusDiv.style.backgroundColor = '#fff3cd';
-    latestStatusDiv.style.color = '#856404';
+    latestStatusDiv.innerHTML = '正在預處理圖片...';
+    latestStatusDiv.className = 'status-loading';
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -22,8 +21,7 @@ function preprocessImage(imageData) {
 async function analyzeImageWithGemini(imageData) {
     const latestStatusDiv = document.getElementById('latestStatus');
     latestStatusDiv.innerHTML = '正在辨識中...';
-    latestStatusDiv.style.backgroundColor = '#fff3cd';
-    latestStatusDiv.style.color = '#856404';
+    latestStatusDiv.className = 'status-loading';
 
     const prompt = "請從這張照片中提取血壓或體重數值。若是血壓計，格式為 '收縮壓: X, 舒張壓: Y'；若是體重機，格式為 '體重: Z kg'。";
     const imageBase64 = imageData.split(',')[1];
@@ -57,25 +55,21 @@ async function analyzeImageWithGemini(imageData) {
             document.getElementById('systolic').value = bpMatch[1];
             document.getElementById('diastolic').value = bpMatch[2];
             latestStatusDiv.innerHTML = '血壓辨識完成，已填入數值。';
-            latestStatusDiv.style.backgroundColor = '#d4edda';
-            latestStatusDiv.style.color = '#28a745';
+            latestStatusDiv.className = 'status-success';
             saveRecord('bp');
         } else if (weightMatch) {
             openTab('weightTab');
             document.getElementById('weight').value = weightMatch[1];
             latestStatusDiv.innerHTML = '體重辨識完成，已填入數值。';
-            latestStatusDiv.style.backgroundColor = '#d4edda';
-            latestStatusDiv.style.color = '#28a745';
+            latestStatusDiv.className = 'status-success';
             saveRecord('weight');
         } else {
             latestStatusDiv.innerHTML = '無法辨識數值，請手動輸入。';
-            latestStatusDiv.style.backgroundColor = '#f8d7da';
-            latestStatusDiv.style.color = '#dc3545';
+            latestStatusDiv.className = 'status-error';
         }
     } catch (error) {
         console.error('錯誤:', error);
         latestStatusDiv.innerHTML = '圖片分析失敗，請手動輸入數據。';
-        latestStatusDiv.style.backgroundColor = '#f8d7da';
-        latestStatusDiv.style.color = '#dc3545';
+        latestStatusDiv.className = 'status-error';
     }
 }

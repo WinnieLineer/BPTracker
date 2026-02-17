@@ -57,18 +57,27 @@ function displayRecords() {
 
     recordsDiv.innerHTML = '';
     records.forEach((record, index) => {
+        const isLatestUserInfo = index === 0;
         recordsDiv.innerHTML += `
             <div class="record-item">
                 <div class="record-details">
-                    <p>日期: ${record.date}</p>
-                    <p>
-                        ${record.systolic && record.diastolic ? `收縮壓: ${record.systolic} mmHg, 舒張壓: ${record.diastolic} mmHg (${record.status})` : ''}
-                        ${record.weight ? ` 體重: ${record.weight} kg` : ''}
-                    </p>
-                    ${userInfo.gender && index === 0 ? `<p>性別: ${userInfo.gender === 'male' ? '男' : '女'}</p>` : ''}
-                    ${userInfo.height && index === 0 ? `<p>身高: ${userInfo.height} cm</p>` : ''}
+                    <span style="font-weight: 700; color: var(--text-secondary); font-size: 0.8rem;">${record.date}</span>
+                    <div style="margin-top: 4px;">
+                        ${record.systolic && record.diastolic ? `
+                            <span class="${record.status === '正常' ? 'status-normal' : 'status-abnormal'}">
+                                ${record.systolic}/${record.diastolic} mmHg
+                            </span>
+                        ` : ''}
+                        ${record.weight ? `<span style="font-weight: 600;">${record.weight} kg</span>` : ''}
+                    </div>
+                    ${isLatestUserInfo && (userInfo.gender || userInfo.height) ? `
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; display: flex; gap: 8px;">
+                            ${userInfo.gender ? `<span>${userInfo.gender === 'male' ? '男性' : '女性'}</span>` : ''}
+                            ${userInfo.height ? `<span>${userInfo.height} cm</span>` : ''}
+                        </div>
+                    ` : ''}
                 </div>
-                <button class="delete-btn" onclick="deleteRecord(${index})">刪除</button>
+                <button class="delete-btn" onclick="deleteRecord(${index})">移除</button>
             </div>
         `;
     });
