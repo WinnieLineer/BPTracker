@@ -7,16 +7,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.2">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css?v=1.3">
 </head>
 <body>
+<div class="bg-blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+</div>
 <div class="container">
     <h1>BPTracker</h1>
     <p class="subtitle">專業血壓與體重追蹤管理服務</p>
     <button id="photoInputBtn">上傳照片 (血壓計或體重機)</button>
     <input type="file" id="photoInput" accept="image/*" capture="environment" multiple>
     <br>
-    <img id="preview" src="" alt="預覽照片" style="display: none;">
+    <div id="scanOverlay" class="scan-overlay" style="display: none;">
+        <div class="scan-line"></div>
+        <img id="preview" src="" alt="預覽照片">
+    </div>
 
     <div class="tabs">
         <button class="tab-button active" onclick="openTab('basicInfoTab')">基本資訊</button>
@@ -75,7 +84,5 @@
 <script src="analysis.js"></script>
 <script src="ui.js"></script>
 <script src="main.js"></script>
-<img src="bp.gif" id="floatingGif" alt="右下角圖片">
-<img src="bpLeft.gif" id="floatingLeftImage" alt="左下角圖片">
 </body>
 </html>

@@ -58,26 +58,55 @@ function displayRecords() {
     recordsDiv.innerHTML = '';
     records.forEach((record, index) => {
         const isLatestUserInfo = index === 0;
+        const statusClass = record.status === '正常' ? 'status-normal' : 'status-abnormal';
+        
+        // Trend Logic
+        let bpTrend = '';
+        let weightTrend = '';
+        if (index < records.length - 1) {
+            const prev = records[index + 1];
+            if (record.systolic && prev.systolic) {
+                if (record.systolic > prev.systolic) bpTrend = '<span class="trend-icon trend-up">▲</span>';
+                else if (record.systolic < prev.systolic) bpTrend = '<span class="trend-icon trend-down">▼</span>';
+            }
+            if (record.weight && prev.weight) {
+                if (record.weight > prev.weight) weightTrend = '<span class="trend-icon trend-up">▲</span>';
+                else if (record.weight < prev.weight) weightTrend = '<span class="trend-icon trend-down">▼</span>';
+            }
+        }
+
         recordsDiv.innerHTML += `
             <div class="record-item">
                 <div class="record-details">
-                    <span style="font-weight: 700; color: var(--text-secondary); font-size: 0.8rem;">${record.date}</span>
-                    <div style="margin-top: 4px;">
+                    <span style="font-weight: 700; color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">${record.date}</span>
+                    <div style="margin-top: 8px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
                         ${record.systolic && record.diastolic ? `
-                            <span class="${record.status === '正常' ? 'status-normal' : 'status-abnormal'}">
-                                ${record.systolic}/${record.diastolic} mmHg
-                            </span>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span class="${statusClass}" style="font-size: 1.25rem;">
+                                    ${record.systolic}/${record.diastolic}
+                                    <small style="font-size: 0.7rem; font-weight: 400; opacity: 0.6; margin-left: 2px;">mmHg</small>
+                                </span>
+                                ${bpTrend}
+                            </div>
                         ` : ''}
-                        ${record.weight ? `<span style="font-weight: 600;">${record.weight} kg</span>` : ''}
+                        ${record.weight ? `
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-weight: 700; font-size: 1.25rem; color: #fff;">
+                                    ${record.weight}
+                                    <small style="font-size: 0.7rem; font-weight: 400; opacity: 0.6; margin-left: 2px;">kg</small>
+                                </span>
+                                ${weightTrend}
+                            </div>
+                        ` : ''}
                     </div>
                     ${isLatestUserInfo && (userInfo.gender || userInfo.height) ? `
-                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; display: flex; gap: 8px;">
-                            ${userInfo.gender ? `<span>${userInfo.gender === 'male' ? '男性' : '女性'}</span>` : ''}
+                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 8px; display: flex; gap: 12px; font-weight: 600; text-transform: uppercase;">
+                            ${userInfo.gender ? `<span>${userInfo.gender === 'male' ? 'Male' : 'Female'}</span>` : ''}
                             ${userInfo.height ? `<span>${userInfo.height} cm</span>` : ''}
                         </div>
                     ` : ''}
                 </div>
-                <button class="delete-btn" onclick="deleteRecord(${index})">移除</button>
+                <button class="delete-btn" onclick="deleteRecord(${index})" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); padding: 8px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.3s ease;">移除</button>
             </div>
         `;
     });

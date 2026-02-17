@@ -13,6 +13,8 @@ function preprocessImage(imageData) {
         ctx.drawImage(img, 0, 0);
         ctx.filter = 'grayscale(1) contrast(1.5)';
         const processedData = canvas.toDataURL('image/jpeg');
+        const scanOverlay = document.getElementById('scanOverlay');
+        if (scanOverlay) scanOverlay.style.display = 'block';
         latestStatusDiv.innerHTML = '預處理完成，開始辨識...';
         analyzeImageWithGemini(processedData);
     };
@@ -56,20 +58,25 @@ async function analyzeImageWithGemini(imageData) {
             document.getElementById('diastolic').value = bpMatch[2];
             latestStatusDiv.innerHTML = '血壓辨識完成，已填入數值。';
             latestStatusDiv.className = 'status-success';
+            if (scanOverlay) scanOverlay.style.display = 'none';
             saveRecord('bp');
         } else if (weightMatch) {
             openTab('weightTab');
             document.getElementById('weight').value = weightMatch[1];
             latestStatusDiv.innerHTML = '體重辨識完成，已填入數值。';
             latestStatusDiv.className = 'status-success';
+            if (scanOverlay) scanOverlay.style.display = 'none';
             saveRecord('weight');
         } else {
             latestStatusDiv.innerHTML = '無法辨識數值，請手動輸入。';
             latestStatusDiv.className = 'status-error';
+            if (scanOverlay) scanOverlay.style.display = 'none';
         }
     } catch (error) {
         console.error('錯誤:', error);
         latestStatusDiv.innerHTML = '圖片分析失敗，請手動輸入數據。';
         latestStatusDiv.className = 'status-error';
+        const scanOverlay = document.getElementById('scanOverlay');
+        if (scanOverlay) scanOverlay.style.display = 'none';
     }
 }
