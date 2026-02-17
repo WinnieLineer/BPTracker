@@ -8,14 +8,12 @@ function saveRecord(type) {
 
     if (type === 'bp' && (!systolic || !diastolic)) {
         latestStatusDiv.innerHTML = '請輸入完整的血壓數據。';
-        latestStatusDiv.style.backgroundColor = '#f8d7da';
-        latestStatusDiv.style.color = '#dc3545';
+        latestStatusDiv.className = 'status-error';
         return;
     }
     if (type === 'weight' && !weight) {
         latestStatusDiv.innerHTML = '請輸入體重數據。';
-        latestStatusDiv.style.backgroundColor = '#f8d7da';
-        latestStatusDiv.style.color = '#dc3545';
+        latestStatusDiv.className = 'status-error';
         return;
     }
 
@@ -31,8 +29,7 @@ function saveRecord(type) {
     localStorage.setItem('bpRecords', JSON.stringify(records));
 
     latestStatusDiv.innerHTML = `記錄儲存成功${status ? '，血壓: ' + status : ''}`;
-    latestStatusDiv.style.backgroundColor = '#d4edda';
-    latestStatusDiv.style.color = '#28a745';
+    latestStatusDiv.className = 'status-success';
 
     clearInputs();
     displayRecords();
@@ -53,8 +50,7 @@ function deleteRecord(index) {
     displayRecords();
     const latestStatusDiv = document.getElementById('latestStatus');
     latestStatusDiv.innerHTML = '已刪除該筆紀錄。';
-    latestStatusDiv.style.backgroundColor = '#d4edda';
-    latestStatusDiv.style.color = '#28a745';
+    latestStatusDiv.className = 'status-success';
 }
 
 function clearAllData() {
@@ -65,8 +61,7 @@ function clearAllData() {
     displayRecords();
     const latestStatusDiv = document.getElementById('latestStatus');
     latestStatusDiv.innerHTML = '已清除所有資料，包括性別與身高。';
-    latestStatusDiv.style.backgroundColor = '#d4edda';
-    latestStatusDiv.style.color = '#28a745';
+    latestStatusDiv.className = 'status-success';
 }
 
 function loadUserInfo() {
